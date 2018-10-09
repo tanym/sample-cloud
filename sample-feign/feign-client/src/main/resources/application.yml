@@ -1,0 +1,82 @@
+server:
+  port: 4001
+spring:
+  application:
+    name: didispace
+  datasource:
+    url: jdbc:mysql://localhost:3306/config-server-db
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+  #模板渲染页面
+  thymeleaf:
+    cache: true
+    servlet:
+      content-type: text/html
+    enabled: true
+    encoding: UTF-8
+    mode: HTML5
+    prefix: classpath:/templates/
+    suffix: .html
+
+  #配置注册服务中心
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:1001/bozy/eureka/
+#  instance:
+    #[服务提供方]角色配置项
+    #服务提供方的服务过期时间配置,默认90s,超过这个时间没有接收到心跳EurekaServer就会将这个服务实例剔除掉
+    #Note* 此设置的前提条件是:EurekaServer一定要设置eureka.server.eviction-interval-timer-in-ms否则这个配置无效,
+    #这个配置一般为lease-renewal-interval-in-seconds(服务刷新时间)配置的3倍.
+#    lease-expiration-duration-in-seconds: 15
+    #服务刷新时间配置,默认30s,每隔这个时间会主动心跳一次,告知EurekaServer自己还活着.
+#    lease-renewal-interval-in-seconds: 5
+
+
+ribbon:
+  ConnectTimeout: 10000
+  SocketTimeout: 50000
+  ReadTimeout: 40000
+
+
+#开启feign默认自带的熔断器开关配置,默认是false
+feign:
+  hystrix:
+    enabled: true
+  client:
+   config:
+    default:
+     connectTimeout: 60000
+     readTimeout: 60000
+  compression:
+    request:
+     enabled: true
+     mime-types: text/xml,application/xml,application/json # 配置压缩支持的MIME TYPE
+     min-request-size: 2048 # 配置压缩数据大小的下限
+     response:
+      enabled: true # 配置响应GZIP压缩
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true #默认是true开启状态
+        isolation:
+          thread:
+            timeoutInMilliseconds: 80000
+#      circuitBreaker:
+#        sleepWindowInMilliseconds: 1000
+#        requestVolumeThreshold: 5
+#      metrics:
+#        rollingStats:
+#          timeInMilliseconds: 300000
+#    "UserServiceAPI#getUserList(String)":
+#      execution:
+#        timeout:
+#          enabled: true
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 60000
+
+

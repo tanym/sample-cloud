@@ -1,0 +1,97 @@
+server:
+  port: 5001
+  servlet:
+    context-path: /bozy
+
+
+mybatis:
+#  mapperLocations: classpath:/mapper/*.xml
+#  typeAliasesPackage: com.bozy.cloud.dao
+##  mapperScanPackage: com.bozy.cloud.dao
+  configLocation: classpath:/conf/mybatis-config.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+###手动配置数据源###
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      master:
+#        url: jdbc:mysql\://localhost\:3306/sc_test?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false
+#        url: jdbc:mysql://localhost:3306/sc_test?setUnicode=true&characterEncoding=utf8
+        url: jdbc:mysql://localhost:3306/sc_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&allowMultiQueries=true
+        username: root
+        password: 123456
+        driver-class-name: com.mysql.jdbc.Driver
+        defaultAutoCommit: false
+        minIdle: 1
+        maxActive: 2
+        initialSize: 1
+        timeBetweenEvictionRunsMillis: 3000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 'ZTM' FROM DUAL
+        validationQueryTimeout: 10000
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        maxWait: 60000
+        # 打开PSCache，并且指定每个连接上PSCache的大小
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+        filters: stat,wall,log4j2
+        stat-view-servlet:
+          url-pattern: /druid/*
+          reset-enable: true
+          login-username: druid
+          login-password: druid
+        web-stat-filter:
+          url-pattern: /*
+          exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+      slave:
+#        url: jdbc:mysql://localhost:3306/sc_test?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false
+        url: jdbc:mysql://localhost:3306/sc_test_slave?useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&allowMultiQueries=true
+        username: root
+        password: 123456
+        driver-class-name: com.mysql.jdbc.Driver
+        minIdle: 1
+        maxActive: 2
+        initialSize: 1
+        timeBetweenEvictionRunsMillis: 3000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 'ZTM' FROM DUAL
+        validationQueryTimeout: 10000
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        maxWait: 60000
+        # 打开PSCache，并且指定每个连接上PSCache的大小
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+        filters: stat,wall,log4j2
+        stat-view-servlet:
+          url-pattern: /druid/*
+          reset-enable: true
+          login-username: druid
+          login-password: druid
+        web-stat-filter:
+          url-pattern: /*
+          exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+  application:
+    name: feign-server
+#  aop:
+#    proxy-target-class: true #true为使用CGLIB代理,false为JDK代理,默认为false
+
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:1001/bozy/eureka/
+
+#其中com.bozy.cloud.dao为mapper接口所在包路径.
+logging:
+  level:
+   com:
+    bozy:
+     cloud:
+      dao: debug
+

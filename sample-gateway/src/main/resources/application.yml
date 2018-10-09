@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: bozy-web
+
+server:
+  port: 3001
+
+#配置注册服务中心
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1001/bozy/eureka/
+    #默认为true,设置成false排除掉把自身也注册为服务.
+    register-with-eureka: true
+    fetch-registry: true
+    #EurekaClient客户端刷新本地缓存时间,默认30s
+    registry-fetch-interval-seconds: 5
+  instance:
+    #默认30s,每间隔1s,向EurekaServer服务端发送一次心跳,证明自己依然“存活”
+    lease-renewal-interval-in-seconds: 1
+    #默认90s,告诉EurekaServer服务端,如果我2s之内没有给你发心跳,就代表我“已死”,将我剔除掉
+    lease-expiration-duration-in-seconds: 2
+
+##eureka客户端ribbon刷新时间
+##默认30s
+#ribbon.ServerListRefreshInterval=5000

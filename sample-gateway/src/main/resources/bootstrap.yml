@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: bozy-web
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        serviceId: config-server-db
+      profile: dev
+
+server:
+  port: 1003
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1001/bozy/eureka/
+

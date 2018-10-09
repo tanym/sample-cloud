@@ -1,0 +1,8 @@
+encrypt:
+  #cmd下执行生成jks密钥文件:keytool -genkeypair -alias mytestkey -keyalg RSA -dname "CN=Web Server,OU=Unit,O=Organization,L=City,S=State,C=US" -keypass changeme -keystroe server.jks -storepass letmein
+  #  key-store:
+  #    location: classpath:/server.jks
+  #    alias: mytestkey
+  #    password:
+  #    secret:
+  key: bozy

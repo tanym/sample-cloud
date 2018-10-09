@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/tanym/test.git #git分支地址
+          search-paths: aa #git分支的目录,ep: aa/bb/cc
+          username: tanym #如果使用的是公有库,则可以不需要用户名和密码,即使此处设置了也不会校验正确性,但是私有库需要设置.
+          password: gh_1125
+          #配置存储目录,在配置中心程序所在的目录下创建一个config-repo目录来进行存储.如果只是配置config-repo,则不会创建config-repo目录,而是在程序所在同一级目录下存储配置内容
+          basedir: config-repo/config-tanym
+        jdbc:
+          sql: SELECT `KEY`, `VALUE` from PROPERTIES where APPLICATION=? and PROFILE=? and LABEL=?
+  datasource:
+    primary:
+      jdbc-url: jdbc:mysql://localhost:3306/${spring.application.name}
+      username: root
+      password: '{cipher}df9479c89fd77639088ff4f85ceab3b68e929200704ebe7ff269d2f8483bfc5e'
+      driver-class-name: com.mysql.jdbc.Driver
+    secondary:
+      jdbc-url: jdbc:mysql://localhost:3306/${spring.application.name}
+      username: root
+      password: '{cipher}df9479c89fd77639088ff4f85ceab3b68e929200704ebe7ff269d2f8483bfc5e'
+      driver-class-name: com.mysql.jdbc.Driver
+
+

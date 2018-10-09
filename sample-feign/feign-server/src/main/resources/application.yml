@@ -1,0 +1,62 @@
+
+#spring:
+#  application:
+#    name: feign-user
+#  profiles:
+##    active: dev
+#  cloud:
+#    config:
+#      server:
+#        jdbc:
+#          sql: SELECT `KEY`, `VALUE` from PROPERTIES where APPLICATION=? and PROFILE=? and LABEL=?
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/config-server-db
+#    username: root
+#    password: 123456
+#    driver-class-name: com.mysql.jdbc.Driver
+#  http:
+#    encoding:
+#      charset: utf-8
+#      enabled: true
+#      force: true
+#  messages:
+#    encoding: UTF-8
+
+server:
+  port: 4002
+  session-timeout: 1000000 #用户回话session过期时间，以秒为单位
+  #server.context-path=/index#配置访问路径，默认为/
+  tomcat:
+   uri-encoding: UTF-8
+  #Tomcat是否开启压缩，默认为关闭
+   compression: on
+
+#配置注册服务中心
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1001/bozy/eureka/
+  instance:
+    #[服务提供方]角色配置项
+    #服务提供方的服务过期时间配置,默认90s,超过这个时间没有接收到心跳EurekaServer就会将这个服务实例剔除掉
+    #Note* 此设置的前提条件是:EurekaServer一定要设置eureka.server.eviction-interval-timer-in-ms否则这个配置无效,
+    #这个配置一般为lease-renewal-interval-in-seconds(服务刷新时间)配置的3倍.
+#    lease-expiration-duration-in-seconds: 15
+    #服务刷新时间配置,默认30s,每隔这个时间会主动心跳一次,告知EurekaServer自己还活着.
+#    lease-renewal-interval-in-seconds: 5
+spring:
+#  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    url: jdbc:mysql://localhost:3306/config-server-db
+#    username: root
+#    password: 123456
+  profiles:
+    active: dynamic
+  aop:
+    auto: true #开启aop,功能同注解@EnableAspectJAutoProxy
+    proxy-target-class: false #为true时,表示使用CGLib动态代理技术来实现增强处理;默认为false,表示使用jdk的动态代理;
+  application:
+    name: feign-server
+
+

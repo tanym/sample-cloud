@@ -1,0 +1,45 @@
+###################cluster集群模式#######################################################################################################
+spring:
+   application:
+     name: eureka_server_cluster
+#   profiles:
+#     active: server2
+
+server:
+  port: 1001
+  servlet:
+    context-path: /bozy
+
+eureka:
+  instance:
+    hostname: localhost
+#    prefer-ip-address: true #设置微服务调用地址为IP优先(缺省默认为false),通过IP端口形式调用.
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/bozy/eureka/,http://localhost:1002/bozy/eureka/,http://localhost:1003/bozy/eureka/
+      defaultZone: http://localhost:1001/bozy/eureka/
+  server:
+    #测试时关闭自我保护机制,保证不可用服务及时剔除掉(https://www.cnblogs.com/hfultrastrong/p/8623288.html),默认是打开.
+    enable-self-preservation: false
+    #缓存readWriteCacheMap失效时间,默认180s,失效后,从registry(ConcurrentHashMap)重新读取注册的服务信息.
+    response-cache-auto-expiration-in-seconds: 10
+    #刷新readCacheMap的时间,默认30s,Note,plz:client read from readCacheMap,这个时间决定了多久会把readWriteCacheMap的缓存内容更新到readCacheMap中.
+    response-cache-update-interval-ms: 30
+    #主动清理坏死节点,启用主动失效,并且每次主动失效检测时间间隔为30s,默认为60s.Note*如果设置了这个参数,则缓存readWriteCacheMap失效时间就没用了(两个功能是一样的).
+    eviction-interval-timer-in-ms: 10000
+    #默认true开启二级缓存机制(第一层缓存:readOnlyCacheMap,本质上是ConcurrentHashMap; 第二层缓存:readWriteCacheMap, 本质上是Guava缓存);
+    #case true时eureka client从readOnlyCacheMap中获取注册的服务列表,case false时则表示未开启二级缓存,只能从readWriteCacheMap中获取注册的服务列表.
+#    use-read-only-response-cache: true
+#    wait-time-in-ms-when-sync-empty: 1 #集群同步失败等待时间
+
+
+
+
+
+
+
+
+
+

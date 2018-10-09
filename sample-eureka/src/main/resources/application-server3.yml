@@ -1,0 +1,34 @@
+#spring:
+#  application:
+#    name: sample-eureka
+
+server:
+  port: 1003
+  servlet:
+    context-path: /bozy
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/bozy/eureka/
+      defaultZone: http://localhost:1001/bozy/eureka/,http://localhost:1002/bozy/eureka/,http://localhost:1003/bozy/eureka/
+  server:
+    #测试时关闭自我保护机制,保证不可用服务及时剔除掉(https://www.cnblogs.com/hfultrastrong/p/8623288.html),默认是打开.
+    enable-self-preservation: false
+    #缓存readWriteCacheMap失效时间,默认180s,失效后,从registry(ConcurrentHashMap)重新读取注册的服务信息.
+    response-cache-auto-expiration-in-seconds: 180
+    #刷新readCacheMap的时间,默认30s,Note,plz:client read from readCacheMap,这个时间决定了多久会把readWriteCacheMap的缓存内容更新到readCacheMap中.
+    response-cache-update-interval-ms: 30
+    #启用主动失效,并且每次主动失效检测时间间隔为30s,默认为60s.Note*如果设置了这个参数,则缓存readWriteCacheMap失效时间就没用了(两个功能是一样的).
+    eviction-interval-timer-in-ms: 30000
+
+
+
+
+
+
+

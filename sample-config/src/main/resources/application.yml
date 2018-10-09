@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active: test
+
+server:
+  port: 2001
+
+#配置注册服务中心
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1001/bozy/eureka/
+  instance:
+    #[服务提供方]角色配置项
+    #服务提供方的服务过期时间配置,默认90s,如果Eureka Server超过这个时间没有接收到心跳就会将这个服务实例剔除掉(Evict).
+    #Note* 此设置的前提条件是:EurekaServer一定要设置eureka.server.eviction-interval-timer-in-ms否则这个配置无效,
+    #这个配置一般为lease-renewal-interval-in-seconds(服务刷新时间)配置的3倍.
+    lease-expiration-duration-in-seconds: 15
+    #服务刷新时间配置(Renew频率),默认30s,每隔这个时间会主动心跳一次,告知EurekaServer自己还活着.也就是每30秒会向Eureka Server发起Renew操作.
+    lease-renewal-interval-in-seconds: 5

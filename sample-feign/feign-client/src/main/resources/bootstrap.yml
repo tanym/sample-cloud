@@ -1,0 +1,30 @@
+#https://yq.aliyun.com/articles/164850,https://www.cnblogs.com/shamo89/p/8016908.html
+#config-client从config-server获取了foo的属性,而config-server是从git仓库读取的()
+spring:
+  application:
+    name: didispace #和git里的文件名对应,对应前配置文件中的{application}部分
+  cloud:
+    config:
+      profile: dev  #对应前配置文件中的{profile}部分
+#      label: master #对应远程仓库的git分支
+#      uri: http://localhost:2001/ #指明配置服务中心config-server的网址
+
+#以注册服务的方式访问配置中心config-server
+      discovery:
+        enabled: true
+        service-id: config-server
+
+#配置注册服务中心
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1001/bozy/eureka/
+
+#消息内容加解密(不对称性)
+#encrypt:
+#  key-store:
+#    location:
+#    alias:
+#    password:
+#    secret:
+#  key: bozy
