@@ -48,7 +48,10 @@ public class RabbitConfig {
         return new FanoutExchange(FANOUT_EXCHANGE_NAME);
     }
 
-    /**创建主题订阅式交换器**/
+    /**创建主题订阅式交换器,
+     * ->*（星号）: 可以(只能)匹配一个单词
+     * ->#（井号）: 可以匹配多个单词(或者零个)
+     * **/
     @Bean
     TopicExchange topicExchange(){
         return new TopicExchange(TOPIC_EXCHANGE_NAME);
@@ -69,13 +72,13 @@ public class RabbitConfig {
     /**绑定TopicExchange指定routingKey**/
     @Bean
     Binding bindingLogError(Queue logErrorQueue, TopicExchange topicExchange){
-        return BindingBuilder.bind(logErrorQueue).to(topicExchange).with("log.error");
+        return BindingBuilder.bind(logErrorQueue).to(topicExchange).with("log.error.#");
     }
 
-    /**绑定TopicExchange指定routingKey,‘.#’表示零个或若干个(log.test.ss),‘.*’表示1个(log.aa).**/
+    /**绑定TopicExchange指定routingKey,‘.#’表示零个或若干个单词(log.test.ss),‘.*’表示匹配1个单词(log.aa).**/
     @Bean
     Binding bindingLogAll(Queue logAllQueue, TopicExchange topicExchange){
-        return BindingBuilder.bind(logAllQueue).to(topicExchange).with("log.#");
+        return BindingBuilder.bind(logAllQueue).to(topicExchange).with("*.log");
     }
 
 }

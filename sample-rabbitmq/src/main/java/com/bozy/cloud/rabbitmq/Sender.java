@@ -37,6 +37,7 @@ public class Sender {
      * @Create Date: 2018/10/15/0015 下午 4:13
      */
     public void sendTopicExchange(String routingKey, String msgText){
+        System.out.println("======send message to Topic Exchange that binded queue.=====");
         amqpTemplate.convertAndSend(TOPIC_EXCHANGE_NAME, routingKey, msgText);
     }
 
