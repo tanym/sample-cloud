@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bozy.cloud.sampleshardingjdbc.dao.OrderRepository">
+    <resultMap id="baseResultMap" type="com.bozy.cloud.sampleshardingjdbc.domain.OrderItem">
+        <result column="order_item_id" property="order_item_id" jdbcType="BIGINT"/>
+        <result column="order_id" property="order_id" jdbcType="BIGINT"/>
+        <result column="user_id" property="user_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <!--<update id="truncateTable">
+        TRUNCATE TABLE t_order_item;
+    </update>
+    
+    <update id="dropTable">
+        DROP TABLE IF EXISTS t_order_item;
+    </update>-->
+
+    <!-- useGeneratedKeys="true" -->
+    <insert id="insertOrderItem" useGeneratedKeys="true" keyProperty="order_item_id">
+        INSERT INTO t_order_item (
+          order_id, product_id, product_name, product_price, product_quantity, product_sn, create_time, modify_time, user_id
+        )
+        VALUES (
+        #{order_id,jdbcType=BIGINT},
+        #{product_id,jdbcType=INTEGER},
+        #{product_name,jdbcType=VARCHAR},
+        #{product_price,jdbcType=DECIMAL},
+        #{product_quantity,jdbcType=INTEGER},
+        #{product_sn,jdbcType=VARCHAR},
+        #{create_time,jdbcType=TIMESTAMP},
+        #{modify_time,jdbcType=TIMESTAMP},
+        #{user_id,jdbcType=BIGINT}
+        )
+    </insert>
+    
+    <delete id="deleteOrderItem">
+        DELETE FROM t_order_item WHERE order_id = #{order_id,jdbcType=BIGINT}
+    </delete>
+    
+    <select id="selectAll" resultMap="baseResultMap">
+        SELECT
+        i.*
+        FROM
+        t_order o, t_order_item i
+        WHERE
+        o.order_id = i.order_id
+    </select>
+</mapper>

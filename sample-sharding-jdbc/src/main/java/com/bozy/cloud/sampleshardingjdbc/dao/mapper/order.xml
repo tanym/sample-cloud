@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bozy.cloud.sampleshardingjdbc.dao.OrderRepository">
+
+    <resultMap id="BaseResultMap" type="com.bozy.cloud.sampleshardingjdbc.domain.Order">
+        <id column="order_id" jdbcType="INTEGER" property="orderId" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.bozy.cloud.sampleshardingjdbc.domain.Order" useGeneratedKeys="true" keyProperty="orderId">
+        INSERT INTO t_order (
+            user_id, status
+        )
+        VALUES (
+            #{userId,jdbcType=INTEGER},
+            #{status,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <insert id="insertItem" useGeneratedKeys="true" keyProperty="orderItemId">
+        INSERT INTO t_order_item (
+          order_id, user_id
+        )
+        VALUES (
+            #{orderId,jdbcType=INTEGER},
+            #{userId,jdbcType=INTEGER}
+        )
+    </insert>
+
+    <select id="searchOrder" resultMap="BaseResultMap">
+        SELECT * from t_order
+    </select>
+
+    <select id="queryWithEqual" resultMap="BaseResultMap">
+        SELECT * FROM t_order WHERE user_id=51
+    </select>
+
+    <select id="queryWithIn" resultMap="BaseResultMap">
+        SELECT * FROM t_order WHERE user_id IN (50, 51)
+    </select>
+
+    <select id="queryWithBetween" resultMap="BaseResultMap">
+        SELECT * FROM t_order WHERE user_id between 10000 and 30000
+    </select>
+
+    <select id="queryUser" resultType="Map">
+        SELECT * FROM t_user
+    </select>
+
+</mapper>

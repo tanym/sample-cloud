@@ -28,3 +28,5 @@ eureka:
 #    password:
 #    secret:
 #  key: bozy
+logging:
+  config: classpath:logback-spring.xml

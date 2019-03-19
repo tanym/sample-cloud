@@ -23,7 +23,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableHystrixDashboard
 @EnableFeignClients
 @EnableDiscoveryClient
-@SpringBootApplication(exclude = FreeMarkerAutoConfiguration.class) //引入了jar包没有使用的情况下,需要排除掉自动加载配置,否则springboot会启动自动加载.
+@SpringBootApplication(exclude = ThymeleafAutoConfiguration.class) //引入了jar包没有使用的情况下,需要排除掉自动加载配置,否则springboot会启动自动加载.FreeMarkerAutoConfiguration.class
 //@SpringCloudApplication
 public class FeignClientApplication {
 

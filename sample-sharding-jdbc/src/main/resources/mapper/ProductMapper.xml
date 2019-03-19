@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bozy.cloud.sampleshardingjdbc.dao.ProductRepository">
+
+    <insert id="insertProduct" useGeneratedKeys="true" keyProperty="id" parameterType="com.bozy.cloud.sampleshardingjdbc.domain.Product">
+        INSERT INTO product (
+          name, price, productTags, isNew, isHot, description, createDate, modifyDate
+        )
+        VALUES (
+        #{name,jdbcType=VARCHAR},
+        #{price,jdbcType=DECIMAL},
+        #{productTags,jdbcType=VARCHAR},
+        #{isNew,jdbcType=BIT},
+        #{isHot,jdbcType=BIT},
+        #{description,jdbcType=VARCHAR},
+        #{createDate,jdbcType=TIMESTAMP},
+        #{modifyDate,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    
+    <delete id="deleteProduct">
+        DELETE FROM product WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+</mapper>

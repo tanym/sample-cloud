@@ -79,4 +79,8 @@ hystrix:
 #          thread:
 #            timeoutInMilliseconds: 60000
 
-
+wk:
+  htmlToPdfPathWin: D:/wkhtml2pdf.exe
+  htmlToPdfPathLin: /usr/local/wkhtml2pdf/wkhtmltopdf/bin/wkhtmltopdf
+  username: bozy
+  pass: 111111

@@ -42,6 +42,10 @@ public class UserController {
         /**采用cloud-config配置中心的配置数据**/
         name = this.from;
         name = this.testKey;
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("name", name);
+        log.info("======[INFO]The vistor name is:" +JSON.toJSONString(resultMap));
+        log.error("======[ERROR]The vistor name is:" +JSON.toJSONString(resultMap));
         return userServiceAPI.sayHello(name);
     }
 
