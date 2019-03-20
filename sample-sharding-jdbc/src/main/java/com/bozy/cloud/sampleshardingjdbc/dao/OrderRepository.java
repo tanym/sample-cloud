@@ -14,6 +14,8 @@ import java.util.Map;
 @Mapper
 public interface OrderRepository {
 
+    int insertOrderByHint(Order order);
+
     int insertOrder(Order order);
 
     int insertOrderItem(OrderItem orderItem);

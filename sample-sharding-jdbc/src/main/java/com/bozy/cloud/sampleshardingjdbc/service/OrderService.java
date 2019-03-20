@@ -10,6 +10,8 @@ import com.bozy.cloud.sampleshardingjdbc.domain.OrderItem;
  */
 public interface OrderService {
 
+    public OutPutObject insertOrderByHint(Order order, OrderItem orderItem);
+
     public OutPutObject insertOrder(Order order, OrderItem orderItem);
 
 }

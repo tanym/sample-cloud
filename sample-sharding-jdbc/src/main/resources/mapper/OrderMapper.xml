@@ -2,6 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bozy.cloud.sampleshardingjdbc.dao.OrderRepository">
     <!-- useGeneratedKeys="true"  -->
+    <insert id="insertOrderByHint" useGeneratedKeys="false" keyProperty="order_id">
+        INSERT INTO t_order (
+          order_id, user_id, order_status, order_title, totalAmount, pay_status, create_time, modify_time
+        )
+        VALUES (
+        #{order_id,jdbcType=BIGINT},
+        #{user_id,jdbcType=BIGINT},
+        #{order_status,jdbcType=INTEGER},
+        #{order_title,jdbcType=BIGINT},
+        #{totalAmount,jdbcType=DECIMAL},
+        #{pay_status,jdbcType=INTEGER},
+        #{create_time,jdbcType=TIMESTAMP},
+        #{modify_time,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
     <insert id="insertOrder" useGeneratedKeys="true" keyProperty="order_id">
         INSERT INTO t_order (
           user_id, order_status, order_title, totalAmount, pay_status, create_time, modify_time

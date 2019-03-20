@@ -43,11 +43,11 @@ public class OrderControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn().getResponse().getContentAsString();*/
-        mockMvc.perform(get("/order/add").accept(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andReturn().getResponse().getContentAsString();   //将相应的数据转换为字符串
-        /*for (int i = 0; i < 33; i++) {
+//        mockMvc.perform(get("/order/add").accept(MediaType.APPLICATION_JSON_UTF8))
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andReturn().getResponse().getContentAsString();   //将相应的数据转换为字符串
+        for (int i = 0; i < 100; i++) {
             ThreadPoolUtil.execute(new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -64,10 +64,10 @@ public class OrderControllerTest {
             }));
         }
         try {
-            Thread.sleep(50000);
+            Thread.sleep(120000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
 }

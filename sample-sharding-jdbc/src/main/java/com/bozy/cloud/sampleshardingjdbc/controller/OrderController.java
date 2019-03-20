@@ -40,7 +40,7 @@ public class OrderController {
      */
     @GetMapping(value = "/add")
     public String add(){
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 200; i++) {
             Order order = new Order();
             long user_id = keyGenerator.generateKey().longValue();
             order.setUser_id(user_id);
@@ -49,20 +49,21 @@ public class OrderController {
             order.setCreate_time(date);
             order.setModify_time(date);
             order.setOrder_title("新增订单");
-            order.setTotalAmount(new BigDecimal("99.99"));
+            order.setTotalAmount(new BigDecimal("666.66"));
             order.setPay_status(0);
 
             OrderItem item = new OrderItem();
             item.setCreate_time(date);
             item.setModify_time(date);
             item.setProduct_id(100);
-            item.setProduct_name("梅赛德斯.Benz");
-            item.setProduct_price(new BigDecimal(9999));
-            item.setProduct_quantity(100);
-            item.setProduct_sn("CN10001");
+            item.setProduct_name("西湖醋鱼");
+            item.setProduct_price(new BigDecimal(666.66));
+            item.setProduct_quantity(1);
+            item.setProduct_sn("CN10005");
             item.setUser_id(user_id);
             try{
              OutPutObject opo = orderService.insertOrder(order, item);
+//             OutPutObject _opo = orderService.insertOrderByHint(order, item);
              if(opo.isSuccess()){
                  System.out.println("======"+opo.getReturnMsg()+"->" + order.getOrder_id());
              }
