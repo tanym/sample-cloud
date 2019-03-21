@@ -1,5 +1,6 @@
 package com.bozy.cloud.sampleshardingjdbc.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.bozy.cloud.sampleshardingjdbc.common.OutPutObject;
 import com.bozy.cloud.sampleshardingjdbc.dao.OrderRepository;
 import com.bozy.cloud.sampleshardingjdbc.domain.Order;
@@ -10,10 +11,14 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +44,7 @@ public class OrderController {
      * @return
      */
     @GetMapping(value = "/add")
-    public String add(){
+    public String add(HttpServletRequest request, HttpServletResponse response){
         for (int i = 0; i < 200; i++) {
             Order order = new Order();
             long user_id = keyGenerator.generateKey().longValue();
@@ -91,6 +96,30 @@ public class OrderController {
         List<Map<String, Object>> list4 = orderRepository.queryUser();
         System.out.println(list4.size() + " user");
         return new OutPutObject(true, "查询成功");
+    }
+
+    /**
+     * Description: 根据用户ID查询其订单集合列表
+     * @Author tym
+     * @Create Date: 2019/3/21/0021 上午 10:35
+     * @return
+     */
+    @RequestMapping(value = "/findPageByUserId", method = RequestMethod.POST)
+    public OutPutObject findPageByUserId(HttpServletRequest request, HttpServletResponse response, Long user_id, Integer pageNo){
+        OutPutObject opo = new OutPutObject(false, "系统繁忙,请稍后再试");
+        try{
+            Map<String, Object> paramsMap = new HashMap<String, Object>();
+            paramsMap.put("user_id", user_id);
+            paramsMap.put("pageNo", pageNo);
+            paramsMap.put("pageSize", 5);
+            List<Order> list = orderService.selectPageByHelper(paramsMap);
+            opo.setSuccess(true);
+            opo.setReturnMsg(JSON.toJSONString(list));
+            System.out.println("======return order list is:" + opo.getReturnMsg());
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return opo;
     }
 
 }

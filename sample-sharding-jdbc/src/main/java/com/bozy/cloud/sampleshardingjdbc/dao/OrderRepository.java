@@ -30,4 +30,8 @@ public interface OrderRepository {
 
     List<Map<String, Object>> queryUser();
 
+    List<Order> selectPageByExample(Map<String, Object> paramsMap);
+
+    List<Order> selectPageByHelper(Map<String, Object> paramsMap);
+
 }

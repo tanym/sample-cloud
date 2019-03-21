@@ -8,6 +8,10 @@
         <typeAlias alias="LinkedHashMap" type="java.util.LinkedHashMap" />
         <typeAlias alias="ArrayList" type="java.util.ArrayList" />
         <typeAlias alias="LinkedList" type="java.util.LinkedList" />
+
+        <typeAlias type="com.bozy.cloud.sampleshardingjdbc.domain.Order" alias="Order"></typeAlias>
+        <typeAlias type="com.bozy.cloud.sampleshardingjdbc.domain.OrderItem" alias="OrderItem"></typeAlias>
+        <typeAlias type="com.bozy.cloud.sampleshardingjdbc.domain.Product" alias="Product"></typeAlias>
     </typeAliases>
 
     <!-- 配置mybatis的分页插件PageHelper -->

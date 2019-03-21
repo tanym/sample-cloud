@@ -5,11 +5,17 @@ import com.bozy.cloud.sampleshardingjdbc.dao.OrderRepository;
 import com.bozy.cloud.sampleshardingjdbc.domain.Order;
 import com.bozy.cloud.sampleshardingjdbc.domain.OrderItem;
 import com.bozy.cloud.sampleshardingjdbc.service.OrderService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.shardingsphere.api.HintManager;
 import io.shardingsphere.core.keygen.DefaultKeyGenerator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
+import java.util.Map;
 
 import static java.util.Objects.hash;
 
@@ -83,6 +89,47 @@ public class OrderServiceImpl implements OrderService {
             ex.printStackTrace();
             throw new RuntimeException("新增订单失败");
         }
+    }
+
+    /**
+     * Description: 使用mysql自身的limit分页查询
+     * @Author tym
+     * @Create Date: 2019/3/21/0021 下午 4:13
+     * @param paramsMap
+     * @return
+     */
+    @Override
+    public List<Order> selectPageByUserId(Map<String, Object> paramsMap) {
+        int pageNo = 1;
+        if(!CollectionUtils.isEmpty(paramsMap) && null != paramsMap.get("pageNo")){
+            pageNo = Integer.parseInt(paramsMap.get("pageNo").toString());
+        }
+        int pageSize = Integer.parseInt(paramsMap.get("pageSize").toString());
+        paramsMap.put("startIndex", (pageNo - 1)*pageSize);
+        paramsMap.put("pageSize", pageSize);
+        List<Order> list = orderRepository.selectPageByExample(paramsMap);
+        return list;
+    }
+
+    /**
+     * Description: 使用分页插件PageHelper
+     * @Author tym
+     * @Create Date: 2019/3/21/0021 下午 4:12
+     * @param paramsMap
+     * @return
+     */
+    @Override
+    public List<Order> selectPageByHelper(Map<String, Object> paramsMap) {
+        int pageNo = 1;
+        if(!CollectionUtils.isEmpty(paramsMap) && null != paramsMap.get("pageNo")){
+            pageNo = Integer.parseInt(paramsMap.get("pageNo").toString());
+        }
+        int pageSize = Integer.parseInt(paramsMap.get("pageSize").toString());
+        PageHelper.startPage(pageNo, pageSize);
+        List<Order> list = orderRepository.selectPageByHelper(paramsMap);
+        PageInfo<Order> pageInfo = new PageInfo<>(list);
+        System.out.println("======总记录数:" + pageInfo.getTotal()+",总页码数:" + pageInfo.getPages());
+        return list;
     }
 
 }

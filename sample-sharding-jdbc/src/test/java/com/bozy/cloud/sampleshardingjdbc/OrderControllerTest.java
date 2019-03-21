@@ -1,5 +1,6 @@
 package com.bozy.cloud.sampleshardingjdbc;
 
+import com.alibaba.fastjson.JSON;
 import com.bozy.cloud.sampleshardingjdbc.common.ThreadPoolUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,9 +12,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -68,6 +74,18 @@ public class OrderControllerTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 测试查询订单集合列表
+     * @throws Exception
+     */
+    @Test
+    public void testFindPageByUserId() throws Exception{
+        mockMvc.perform(post("/order/findPageByUserId").param("user_id", "315157968419028992").param("pageNo", "1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn().getResponse().getContentAsString();
     }
 
 }
