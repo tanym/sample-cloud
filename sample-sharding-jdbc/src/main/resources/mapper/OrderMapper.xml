@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bozy.cloud.sampleshardingjdbc.dao.OrderRepository">
+    <resultMap id="BaseResultMap" type="com.bozy.cloud.sampleshardingjdbc.domain.Order">
+        <result column="order_id" jdbcType="BIGINT" property="order_id" />
+        <result column="user_id" jdbcType="BIGINT" property="user_id" />
+        <result column="order_status" jdbcType="INTEGER" property="order_status" />
+        <result column="order_title" jdbcType="VARCHAR" property="order_title" />
+        <result column="pay_status" jdbcType="INTEGER" property="pay_status" />
+        <result column="totalAmount" jdbcType="DECIMAL" property="totalAmount" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modify_time" />
+        <collection property="orderItems" ofType="com.bozy.cloud.sampleshardingjdbc.domain.OrderItem">
+            <id column="order_item_id" property="order_item_id"/>
+            <result column="item_order_id" property="order_id"/>
+            <result column="product_id" property="product_id"/>
+            <result column="product_name" property="product_name"/>
+            <result column="product_price" property="product_price"/>
+            <result column="product_quantity" property="product_quantity"/>
+            <result column="product_sn" property="product_sn"/>
+            <result column="create_time" property="create_time"/>
+            <result column="modify_time" property="modify_time"/>
+            <result column="item_user_id" property="user_id"/>
+        </collection>
+    </resultMap>
     <!-- useGeneratedKeys="true"  -->
     <insert id="insertOrderByHint" useGeneratedKeys="false" keyProperty="order_id">
         INSERT INTO t_order (
@@ -45,12 +67,14 @@
           order by create_time asc limit #{startIndex}, #{pageSize}
     </select>
 
-    <select id="selectPageByHelper" parameterType="HashMap" resultType="Order">
-        select * from t_order where 1=1
+    <select id="selectPageByHelper" parameterType="HashMap" resultMap="BaseResultMap">
+        select t1.*, t2.order_id item_order_id, t2.user_id item_user_id,
+          t2.order_item_id, t2.product_id, t2.product_name, t2.product_price, t2.product_sn, t2.product_quantity
+          from t_order t1 , t_order_item t2 where t1.order_id = t2.order_id
         <if test="user_id != null and user_id != ''">
-            and user_id = #{user_id}
+            and t1.user_id = #{user_id}
         </if>
-        order by create_time asc
+        order by t1.create_time asc
     </select>
 
 </mapper>

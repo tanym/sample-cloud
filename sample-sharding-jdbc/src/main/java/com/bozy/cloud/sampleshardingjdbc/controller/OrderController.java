@@ -1,6 +1,9 @@
 package com.bozy.cloud.sampleshardingjdbc.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializeConfig;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson.serializer.SimpleDateFormatSerializer;
 import com.bozy.cloud.sampleshardingjdbc.common.OutPutObject;
 import com.bozy.cloud.sampleshardingjdbc.dao.OrderRepository;
 import com.bozy.cloud.sampleshardingjdbc.domain.Order;
@@ -31,6 +34,13 @@ import java.util.Map;
 public class OrderController {
 
     private static final Logger logger = Logger.getLogger(OrderController.class);
+
+    private static SerializeConfig mapping = new SerializeConfig();
+    private static String jsonDateFormat;
+    static {
+        jsonDateFormat = "yyyy-MM-dd";
+        mapping.put(Date.class, new SimpleDateFormatSerializer(jsonDateFormat));
+    }
 
     @Autowired
     private OrderService orderService;
@@ -114,7 +124,7 @@ public class OrderController {
             paramsMap.put("pageSize", 5);
             List<Order> list = orderService.selectPageByHelper(paramsMap);
             opo.setSuccess(true);
-            opo.setReturnMsg(JSON.toJSONString(list));
+            opo.setReturnMsg(JSON.toJSONString(list, SerializerFeature.WriteDateUseDateFormat));
             System.out.println("======return order list is:" + opo.getReturnMsg());
         }catch (Exception ex){
             ex.printStackTrace();
