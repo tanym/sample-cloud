@@ -74,13 +74,13 @@ public class OrderControllerTest {
     /**
      * 测试查询订单集合列表
      * @throws Exception
-     */
-    @Test
+     */@Test
     public void testFindPageByUserId() throws Exception{
         mockMvc.perform(post("/order/findPageByUserId").param("user_id", "315157968419028992").param("pageNo", "1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn().getResponse().getContentAsString();
     }
+
 
 }
